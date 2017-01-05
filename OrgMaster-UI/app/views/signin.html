@@ -1,0 +1,32 @@
+<div class="container">
+<div class="row signin_form">
+   
+    <div class = "col m9 s9 l9 offset-s1 offset-m1 offset-l1 ">
+    <form class="col s12 signin" >
+      <div class="row ">
+        <div class="input-field col s12">
+          <input id="user_id" type="text" class="validate" ng-model="user.username" ng-required="true" title="Please enter a valid user name">
+          <label for="email">User Name</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="password" type="password" class="validate" ng-model="user.password" ng-required="true" title="Please enter a valid password">
+          <label for="password">Password</label>
+        </div>
+      </div>
+
+      
+       <div class="row">
+        <div class="input-field col s12">
+          <button class="btn waves-effect waves-light" type="submit" name="action" ng-click="login()">Login
+            <i class="material-icons right">send</i>
+          </button>
+          <!--<a class="waves-effect waves-light btn" ng-click="login()"><i class="material-icons right">fast_forward</i>Login</a>-->
+        </div>
+      </div>
+    
+    </form>
+    </div>
+  </div>
+</div>

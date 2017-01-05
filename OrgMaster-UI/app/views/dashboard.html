@@ -1,0 +1,201 @@
+<div class="container">
+
+<!-------------------------upload file modal------------------------------------->
+  <div id="modal1" class="modal modal-fixed-footer">
+
+    <div class="model-header">
+      <div class="section"><span style="font-size: 24px;">&nbspFile Upload</span></div>
+      <div class="divider"></div>
+    </div>
+
+    <div class="modal-content">
+
+      <div class="row">
+
+        <p ng-show="showUploadMsg">Choose files to upload to your Dropbox.</p>
+        <div ng-show="showUploadFiles && uploadedFiles.length>0">
+          <ul class="collection">
+            <li class="collection-item" ng-repeat="file in uploadedFiles track by $index" ng-class="{'uploaded':uploadedPercent[file.name.replace(' /g','')]==100}">
+              <div class="uploadedFilePane row ">
+                <div class="col s6" <span>{{file.name}}</span>
+                </div>
+                <div class="col s4" ng-show="uploadedPercent[file.name.replace(' /g','')]">
+                  <span>{{uploadedPercent[file.name.replace(' /g',"")]}} %</span>
+                </div>
+                <div class="col s2 push-s1" ng-if="uploadedPercent[file.name.replace(' /g','')]==100">
+                  <i class="material-icons tiny">done</i>
+                </div>
+                <div class="col s2 push-s1">
+
+                  <div class="preloader-wrapper tiny active" ng-if="uploadedPercent[file.name.replace(' /g','')] && uploadedPercent[file.name.replace(' /g','')]!=100">
+                    <!---->
+                    <div class="spinner-layer spinner-green-only">
+                      <div class="circle-clipper left">
+                        <div class="circle"></div>
+                      </div>
+                      <div class="gap-patch">
+                        <div class="circle"></div>
+                      </div>
+                      <div class="circle-clipper right">
+                        <div class="circle"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+          </ul>
+        </div>
+
+      </div>
+      <!-- Upload right away after file selection:
+<div class="button" ngf-select="upload($file)">Upload on file select</div>
+<div class="button" ngf-select="uploadFiles($files)" multiple="multiple">Upload on file select</div>
+  Drop File:
+<div ngf-drop="uploadFiles($files)" class="drop-box"
+  ngf-drag-over-class="'dragover'" ngf-multiple="true" 
+  ngf-pattern="'image/*,application/pdf'">Drop Images or PDFs files here</div>
+<div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div> -->
+    </div>
+    <div class="modal-footer">
+      <div class="row">
+        <div class="col s9">
+          <form name="form">
+            <!--  <div class="button" 
+   >Select</div> -->
+
+            <a class="waves-effect waves-light btn" ngf-select="upload($file)" ng-model="file" name="file" ngf-pattern="'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'"
+              ngf-accept="'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'" ngf-max-size="20MB" ng-click="$event.preventDefault()">Choose file</a>
+
+            <!--  Multiple files
+  <div class="button" ngf-select ng-model="files" ngf-multiple="true">Select</div>
+  Drop files: <div ngf-drop ng-model="files" class="drop-box">Drop</div>
+  <button type="submit" ng-click="submit()">submit</button> -->
+          </form>
+        </div>
+        <div class="col s3">
+          <a class="waves-effect waves-light btn modal-action modal-close " ng-click="clearUploadedFile($event)">cancel</a>
+          <!--<a href="#!" ng-click="$event.preventDefault()" class=" modal-action modal-close waves-effect waves-green btn-flat">cancel</a>-->
+        </div>
+      </div>
+    </div>
+  </div>
+<!-------------------------****************------------------------------------->
+
+<!------------------------row edit modal------------------------------------->
+  <!--<div id="modal1" class="modal modal-fixed-footer">
+
+    <div class="model-header">
+      <div class="section"><span style="font-size: 24px;">&nbspEdit Row</span></div>
+      <div class="divider"></div>
+    </div>
+
+    <div class="modal-content">
+
+      
+     
+    </div>
+    <div class="modal-footer">
+      <div class="row">
+        <div class="col s9">
+          <form name="form">
+            <a class="waves-effect waves-light btn" ngf-select="upload($file)" ng-model="file" name="file" ngf-pattern="'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'"
+              ngf-accept="'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'" ngf-max-size="20MB" ng-click="$event.preventDefault()">Choose file</a>
+          </form>
+        </div>
+        <div class="col s3">
+          <a class="waves-effect waves-light btn modal-action modal-close " ng-click="clearUploadedFile($event)">cancel</a>
+          <!--<a href="#!" ng-click="$event.preventDefault()" class=" modal-action modal-close waves-effect waves-green btn-flat">cancel</a>-->
+       <!-- </div>
+      </div>
+    </div>
+  </div>-->
+
+  <!-------------------------****************------------------------------------->
+<form name="dashboad_form"  ng-model-options="{updateOn: 'submit'}"  ng-submit="saveChanges()">
+<div ng-if="!no_docs_edit" >
+  <div class="row">
+    <div class="col s8">
+      <!-- <span ng-repeat="(key,value) in user.excelData"><a class="waves-effect waves-light btn" ng-click="selectSheet(key)">{{key}}</a></span> -->
+      <h3 class="header">Sheets</h3>
+     
+        <ul class="pagination">
+          <li class="disabled"><a href="#!" ng-click="$event.preventDefault()"><i class="material-icons">chevron_left</i></a></li>
+          <li ng-class="{'active':activeLink==$index}" ng-repeat="(key,value) in user.excelData"><a href="#!" ng-click="selectSheet(key,$event,$index)">{{$index}}</a></li>
+          <!-- <li class="waves-effect"><a href="#!">2</a></li>
+		    <li class="waves-effect"><a href="#!">3</a></li>
+		    <li class="waves-effect"><a href="#!">4</a></li>
+		    <li class="waves-effect"><a href="#!">5</a></li> -->
+          <li class="waves-effect"><a href="#!"><i class="material-icons" ng-click="$event.preventDefault()">chevron_right</i></a></li>
+        </ul>
+    </div>
+    <div class="col s4 pull-s1">
+       <p class="header">Doc Name: {{::user.docname}}</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s12 m12 l12">
+      <table class="responsive-table centered highlight bordered ">
+        <thead>
+          <tr>
+            <th data-field="{{header}}" ng-repeat="header in tableHeaders" ng-bind="::header|uppercase"></th>
+            <th data-field="row_edit">Edit</th>
+            <!--  <th data-field="name">Item Name</th>
+              <th data-field="price">Item Price</th> -->
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr ng-repeat="sheet in user.tableRowData track by $index">
+            <td colspan="" ng-repeat="row in sheet track by $index">{{sheet[tableHeaders[$index]]}}
+              <!--$index is of td and this is to sync the table headers with the data show in rows-->
+              <div class="input-field">
+
+                <input ng-if="!sheet[tableHeaders[$index]]"  ng-model ="sheet[tableHeaders[$index]]" id="{{tableHeaders[$index]}}" type="text" class="validate"> <!--ng-model ="sheet[tableHeaders[$index]]"-->
+                <label ng-if="!sheet[tableHeaders[$index]]" for="{{tableHeaders[$index]}}">{{tableHeaders[$index]}}</label>
+              </div>
+
+            </td>
+            <td>
+              <a href="#!" ng-click="editRow($event,row)"><i class="material-icons">mode_edit</i></a>
+              </td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+      <div class="col s12">
+<!--<a class="waves-effect waves-light btn" ng-click=""><i class="material-icons right">fast_forward</i></a>-->
+ <button class="btn waves-effect waves-light" type="submit" name="action" >save changes
+            <i class="material-icons right">send</i>
+          </button>
+      </div>
+  </div>
+</div>
+</form>
+
+<div ng-if="no_docs_edit">
+  <div class="row">
+    <div class="col s8">
+      <p class="no_docs_edit">Currently, there are no documents to edit! </p>
+    </div>
+    </div>
+</div>
+
+
+
+  <div class="row">
+    <div class="fixed-action-btn">
+      <a class="btn-floating btn-large red">
+        <i class="large material-icons">mode_edit</i>
+      </a>
+      <ul>
+        <li><a class="btn-floating green" ng-click="uploadDoc()"><i class="material-icons">publish</i></a></li>
+        <!--<li><a class="btn-floating blue" ng-click="hoist()"><i class="material-icons">attach_file</i></a></li>-->
+      </ul>
+    </div>
+
+  </div>
+</div>

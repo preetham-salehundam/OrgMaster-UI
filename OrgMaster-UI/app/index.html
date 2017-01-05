@@ -1,0 +1,117 @@
+<!doctype html>
+<html ng-app="orgMasterUiApp" >
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <!--Import Google Icon Font-->
+  <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" /> -->
+  <link href="fonts/google_fonts.css" rel="stylesheet" />
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <!-- build:css(.) styles/vendor.css -->
+  <!-- bower:css -->
+  <link rel="stylesheet" href="bower_components/materialize/bin/materialize.css" />
+  <!-- endbower -->
+  <!-- endbuild -->
+  <!-- build:css(.tmp) styles/main.css -->
+  <link rel="stylesheet" href="styles/main.css">
+  <!-- endbuild -->
+</head>
+
+<body ng-controller="MainCtrl" class="content-body">
+  <!--[if lte IE 8]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+  <ul id="slide-out" class="side-nav">
+    <li>
+      <div class="userView">
+        <div class="background">
+          <img src="images/office.jpg">
+        </div>
+        <a href="#!user" ng-click="$event.preventDefault();"><img class="circle" src="images/yuna.jpg"></a>
+        <a href="#!name" ng-click="$event.preventDefault();" ng-if="LoggedInUser.authenticated"><span class="white-text name">{{LoggedInUser.username}}</span></a>
+        <a href="#!email" ng-click="$event.preventDefault();" ng-if="LoggedInUser.authenticated"><span class="white-text email">{{LoggedInUser.username}}@gmail.com</span></a>
+      </div>
+    </li>
+    <li  ui-sref="dashboard" ui-sref-active = "ui-state-active" ><a ng-click="$event.preventDefault()" class="nav_badge">My Tasks</a><span class="new badge">4</span></li>
+    <li ui-sref-active = "ui-state-active" ui-sref="excelstore" ><a  ng-click="$event.preventDefault()" class="nav_badge">Uploaded Docs</a><span class="badge" ng-if="uploadedDocsCount>0">{{uploadedDocsCount}}</span></li>
+    <!-- <li><div class="divider"></div></li> -->
+    <!--  <li><a class="subheader" ng-click="$event.preventDefault()">Options</a></li> -->
+    <li><a class="waves-effect" href="#!" ng-click="$event.preventDefault()">Delete Excel</a></li>
+  </ul>
+  <!-- Add your site or application content here -->
+  <div class="header">
+    <div class="navbar-fixed">
+      <nav>
+        <div class="nav-wrapper">
+          <a href="#" data-activates="slide-out" class="button-collapse show-on-large"><i class="material-icons">menu</i></a>
+          <a href="#!" class="brand-logo">Excel Manager</a>
+          <ul class="right hide-on-med-and-down">
+            <li><a href="#!" ng-click="$event.preventDefault()" ng-cloak>{{LoggedInUser.username}}</a></li>
+            <li><a ng-click="logout($event)" ng-cloak ng-if="LoggedInUser.authenticated" >Logout</a></li> 
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+
+
+
+
+
+  </div>
+
+  <div class="row">
+    <div class="col s12 m12 l12">
+      <ui-view></ui-view>
+    </div>
+
+  </div>
+
+  <!--  <div class="footer">
+      <div class="container">
+      </div>
+    </div> -->
+
+
+  <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+
+
+  <!-- build:js(.) scripts/vendor.js -->
+  <!-- bower:js -->
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-animate/angular-animate.js"></script>
+  <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+  <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+  <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="bower_components/lodash/lodash.js"></script>
+  <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+  <script src="bower_components/materialize/bin/materialize.js"></script>
+  <script src="bower_components/ng-file-upload-shim/ng-file-upload-shim.js"></script>
+  <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
+
+  <!-- endbower -->
+  <!-- endbuild -->
+
+  <!-- build:js({.tmp,app}) scripts/scripts.js -->
+  <script src="scripts/app.js"></script>
+  <script src="scripts/controllers/main.js"></script>
+  <script src="scripts/controllers/signin.js"></script>
+  <script src="scripts/controllers/dashboard.js"></script>
+  <script src="scripts/controllers/excelStore.js"></script>
+  <!-- endbuild -->
+
+
+  <script>
+      $(".button-collapse").sideNav();
+      $(".button-collapse").on('click',function(e){
+        e.preventDefault();
+      })
+    </script>
+</body>
+
+</html>

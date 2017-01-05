@@ -1,0 +1,31 @@
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i {
+    height: 50px !important;
+    line-height: 50px !important;
+}
+nav{
+	background-color:rgb(99, 133, 212);
+}
+.modal.modal-fixed-footer {
+    padding: 0;
+    height: 50% !important;
+}
+.uploadedFilePane{
+        margin-bottom: 0px;
+}
+.preloader-wrapper.tiny {
+    width: 20px;
+    height: 20px;
+}
+.uploaded{
+    background-color: rgba(0, 128, 0, 0.13) !important;
+}
+.ui-state-active{
+    border-radius: 4px;
+    background-color: rgba(229, 232, 228, 0.84);
+}
+.nav_badge{
+    display:inline !important;
+}
