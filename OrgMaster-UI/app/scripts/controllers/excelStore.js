@@ -47,10 +47,10 @@ angular.module('orgMasterUiApp')
       		$scope.uploadedPercent={};
           $scope.upload = function (file) {
       			if (file) {
-      				var uploadUrl = host + "/parseUpload?user_id=Preetham"; //change
+      				var uploadUrl = host + "/parseUpload?user_id="+$scope.userAuthData.username; //change
               Upload.upload({
       					url: uploadUrl,
-      					data: { file: file, 'username': 'Preetham' } //change
+      					data: { file: file, 'username': $scope.userAuthData.username } //change
               }).then(function (resp) {
       					console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
       					$scope.uploadedFiles.push({"name":resp.config.data.file.name,"fileDetails":resp.data});
