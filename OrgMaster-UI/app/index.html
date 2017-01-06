@@ -31,12 +31,12 @@
           <img src="images/office.jpg">
         </div>
         <a href="#!user" ng-click="$event.preventDefault();"><img class="circle" src="images/yuna.jpg"></a>
-        <a href="#!name" ng-click="$event.preventDefault();" ng-if="LoggedInUser.authenticated"><span class="white-text name">{{LoggedInUser.username}}</span></a>
-        <a href="#!email" ng-click="$event.preventDefault();" ng-if="LoggedInUser.authenticated"><span class="white-text email">{{LoggedInUser.username}}@gmail.com</span></a>
+        <a href="#!name" ng-click="$event.preventDefault();" ng-if="user.LoggedInUser.authenticated"><span class="white-text name">{{user.LoggedInUser.username}}</span></a>
+        <a href="#!email" ng-click="$event.preventDefault();" ng-if="user.LoggedInUser.authenticated"><span class="white-text email">{{user.LoggedInUser.username}}@gmail.com</span></a>
       </div>
     </li>
     <li  ui-sref="dashboard" ui-sref-active = "ui-state-active" ><a ng-click="$event.preventDefault()" class="nav_badge">My Tasks</a><span class="new badge">4</span></li>
-    <li ui-sref-active = "ui-state-active" ui-sref="excelstore" ><a  ng-click="$event.preventDefault()" class="nav_badge">Uploaded Docs</a><span class="badge" ng-if="uploadedDocsCount>0">{{uploadedDocsCount}}</span></li>
+    <li ui-sref-active = "ui-state-active" ui-sref="excelstore" ><a  ng-click="$event.preventDefault()" class="nav_badge">Uploaded Docs</a><span class="badge" ng-if="user.uploadedDocsCount>0">{{user.uploadedDocsCount}}</span></li>
     <!-- <li><div class="divider"></div></li> -->
     <!--  <li><a class="subheader" ng-click="$event.preventDefault()">Options</a></li> -->
     <li><a class="waves-effect" href="#!" ng-click="$event.preventDefault()">Delete Excel</a></li>
@@ -49,8 +49,8 @@
           <a href="#" data-activates="slide-out" class="button-collapse show-on-large"><i class="material-icons">menu</i></a>
           <a href="#!" class="brand-logo">Excel Manager</a>
           <ul class="right hide-on-med-and-down">
-            <li><a href="#!" ng-click="$event.preventDefault()" ng-cloak>{{LoggedInUser.username}}</a></li>
-            <li><a ng-click="logout($event)" ng-cloak ng-if="LoggedInUser.authenticated" >Logout</a></li> 
+            <li><a href="#!" ng-click="$event.preventDefault()" ng-cloak>{{user.LoggedInUser.username}}</a></li>
+            <li><a ng-click="logout($event)" ng-cloak ng-if="user.LoggedInUser.authenticated" >Logout</a></li> 
           </ul>
         </div>
       </nav>
@@ -91,9 +91,9 @@
   <script src="bower_components/lodash/lodash.js"></script>
   <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
   <script src="bower_components/materialize/bin/materialize.js"></script>
-  <script src="bower_components/ng-file-upload-shim/ng-file-upload-shim.js"></script>
+  <script src="bower_components/angular-file-upload/dist/angular-file-upload.min.js"></script>
   <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
-
+  <script src="bower_components/ng-file-upload-shim/ng-file-upload-shim.js"></script>
   <!-- endbower -->
   <!-- endbuild -->
 

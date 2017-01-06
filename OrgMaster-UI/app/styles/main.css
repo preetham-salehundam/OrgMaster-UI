@@ -29,3 +29,7 @@ nav{
 .nav_badge{
     display:inline !important;
 }
+.highlight i:hover{
+	color:rgba(30, 202, 109, 0.84);
+	cursor:pointer;
+}

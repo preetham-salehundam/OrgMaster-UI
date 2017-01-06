@@ -14,14 +14,12 @@ angular.module('orgMasterUiApp')
 		  });
 
 		if($stateParams.doc_id && $stateParams.doc_id!=''){
-			$rootScope.current_doc_id = $stateParams.doc_id ;
+			$rootScope.user.current_doc_id = $stateParams.doc_id ;
 		}
 		$scope.uploadDoc = function () {
     	$('#modal1').modal('open');
 		};
-		$scope.hoist = function () {
-    	alert('uploadDoc');
-		};
+		
 
 		//http://localhost:3000/records?user_id=Preetham&doc_id=586abc0577f1a42e747e9489
  //records_all?doc_id=586ddd8dd63b2e598eb90791
@@ -42,7 +40,25 @@ angular.module('orgMasterUiApp')
     		
 
 		};
-
+		
+		$scope.fetchDocNameById=function(){
+			if($rootScope.user.current_doc_id && $rootScope.user.current_doc_id!=''){
+				var url="/doc?id="+$rootScope.user.current_doc_id;
+				ajaxService('get',url).then(function(response){
+					if(response && response.data && angular.isArray(response.data) && response.data.length>0){
+						$scope.user.docname = response.data[0].fileName || "anonymous document";
+					}
+					//console.log(response.data);
+				},function(err){
+					console.log(err);
+				})
+			}
+			
+		}
+		//if($stateParams.doc_id && $stateParams.doc_id!=''){
+			
+			$scope.fetchDocNameById();
+		//}
 		
 
 		$scope.initSheet = function () {
@@ -110,27 +126,40 @@ angular.module('orgMasterUiApp')
 		}
 
 
-if($stateParams.doc_data && $stateParams.doc_data!=null){
-			var excelContent= JSON.parse($stateParams.doc_data.exceldata);
-			$scope.user.docname=$stateParams.doc_data.filename;
-				$scope.user.excelData = excelContent;
-				$scope.fetchHeaders($scope.user.excelData);
-				$scope.initSheet();
-		}else{
-			$scope.fetchUserSpecificData($scope.userAuthData.username,'586d21e2c3b5d2414698ccef');//$rootScope.current_doc_id
-		} 
+//if($stateParams.doc_data && $stateParams.doc_data!=null){
+//			var excelContent= JSON.parse($stateParams.doc_data.exceldata);
+//			$scope.user.docname=$stateParams.doc_data.filename;
+//				$scope.user.excelData = excelContent;
+//				$scope.fetchHeaders($scope.user.excelData);
+//				$scope.initSheet();
+//		}else{
+			$scope.fetchUserSpecificData($scope.userAuthData.username,$rootScope.user.current_doc_id);//$rootScope.user.current_doc_id
+//		} 
 
 
-		$scope.saveChanges=function(){
+		$scope.saveChanges=function(modal_id){
 			var sheet= $scope.currentSheetName
 			$scope.user.excelData[sheet]=$scope.user.tableRowData;
 			console.log("updateddata");
 			console.log($scope.user.excelData);
-			var url  = host+'/records?user_id='+$scope.userAuthData.username+'&doc_id=586d21e2c3b5d2414698ccef';//+doc_id;
+			var url  = host+'/records?user_id='+$scope.userAuthData.username+'&doc_id='+$rootScope.user.current_doc_id;//+doc_id;
 			$http.post(url,$scope.user.excelData).then(function(response){
 				console.log(response);
+				if(modal_id){
+					$('#'+modal_id).modal('close');	
+					
+				}
+				 var $toastContent = $('<span>Data saved successfully!</span>');
+				  Materialize.toast($toastContent, 3000);
+				
 				//$scope.
 			},function(err){
+				if(modal_id){
+					$('#'+modal_id).modal('close');	
+					
+				}
+				var $toastContent = $('<span>Oops! Action failed.</span>');
+				  Materialize.toast($toastContent, 3000);
 				console.log(err)
 			})
 			//ajaxService('put', '/records?user_id='+user_id+'&doc_id='+doc_id+'')
@@ -141,9 +170,53 @@ if($stateParams.doc_data && $stateParams.doc_data!=null){
 			if($event)$event.preventDefault();
 			$scope.edit={};
 			$scope.edit.rowData=row;
+			$('#rowEditModal').modal('open');
+			
+			
 
 		}
-
+		$scope.addRow=function($event){
+			if($event){$event.preventDefault();};
+//			$scope.currentSheetName;
+//			$scope.tableHeaders;
+			var newRow={};
+			var prop;
+			for(var i in $scope.tableHeaders){
+				//if(){
+				prop = $scope.tableHeaders[i];
+				newRow[prop]=undefined;
+				//}
+			}
+			$scope.user.tableRowData.push(newRow);
+			
+		};
+		
+		$scope.isEmptyRow=function(rowData){
+			for(var i in $scope.tableHeaders){
+				var prop = $scope.tableHeaders[i]; //taking the headers as refer and checking if all the values corresponding to these headers in the row are empty
+				if(rowData[prop]==undefined ||rowData[prop]=="" || rowData[prop]==" "
+					|| rowData[prop] == null || rowData[prop] =="undefined" 
+						|| rowData[prop] =="null"){
+					return true;
+				}else{
+					return false;
+				}
+			}
+		}
+		
+		$scope.deleteEmptyRow=function(row_index,$event){
+			try{
+				$event.preventDefault();
+				if($scope.user.tableRowData && angular.isArray($scope.user.tableRowData) && $scope.user.tableRowData.length>0){
+					$scope.user.tableRowData.splice(row_index,1);
+				}
+				
+				
+			}catch(err){
+				console.error(err);
+			}
+			
+		}
 		//upload files
 
 
@@ -197,5 +270,5 @@ if($stateParams.doc_data && $stateParams.doc_data!=null){
 			$scope.showUploadMsg=true;
 
 		}
-
+		
   }]);

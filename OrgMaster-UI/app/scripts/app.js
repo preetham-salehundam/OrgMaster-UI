@@ -35,7 +35,6 @@ var app=angular
  		templateUrl:'../views/dashboard.html',
  		controller:'DashboardController',
 		 params:{
-			 doc_data:undefined,
 			 userAuthData:undefined,
 			 doc_id:undefined
 		 },
@@ -76,8 +75,8 @@ var app=angular
 				toParams.userAuthData=userObj;
 			}
   });									
-
-  $rootScope.LoggedInUser=userAuthService.getUserObj();	
+  $rootScope.user={};
+  $rootScope.user.LoggedInUser=userAuthService.getUserObj();	
  }])
 
 app.service('userAuthService',function($cookies,sessionTimeout,$state){

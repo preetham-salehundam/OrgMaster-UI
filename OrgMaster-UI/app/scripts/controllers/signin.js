@@ -9,7 +9,7 @@
  */
 angular.module('orgMasterUiApp')
   .controller('SigninCtrl', ['$scope','$state','$rootScope','userAuthService','$stateParams',function ($scope,$state,$rootScope,userAuthService,$stateParams) {
-	$rootScope.LoggedInUser={};  
+	$rootScope.user.LoggedInUser={};  
   	$scope.user={};
 	$scope.persisitUserObj={};
     	$scope.login=function(){
@@ -19,13 +19,13 @@ angular.module('orgMasterUiApp')
 				$scope.persisitUserObj.authenticated=$scope.user.authenticated;
 				userAuthService.setUserObj($scope.persisitUserObj);
 				userAuthService.saveUserAuthState();
-				$rootScope.LoggedInUser=$scope.persisitUserObj;
+				$rootScope.user.LoggedInUser=$scope.persisitUserObj;
 
 
 				if($stateParams.doc_id && $stateParams.doc_id!=''){
 					$state.go('dashboard',{doc_id:$stateParams.doc_id});
 				}else{
-					$state.go('dashboard');
+					$state.go('excelstore');
 				}
 
     			
